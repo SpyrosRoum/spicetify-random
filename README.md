@@ -21,3 +21,7 @@ DanDrumStone
 Kaapi
 Dribbblish color_scheme=Gruvbox extensions=dribbblish.js
 ```
+#  
+The default options file is on ~/.config/spicetify/options.txt but you can change it with `--options` argument.
+
+This has been tested on linux only but should work on windows and mac as well. 
