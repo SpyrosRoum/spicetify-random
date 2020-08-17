@@ -33,8 +33,15 @@ class Theme:
 
 class Spicetify:
     """A class wrapping all the spicetify related functions"""
-    def __init__(self, options_path=None):
-        self.path = os.popen("which spicetify").read().rstrip("\n") or None
+    def __init__(self, options_path: Optional[Path] = None):
+        """
+        options_path is the path for the themes it should select from
+        """
+        if sys.platform.startswith("win"):
+            self.path = os.popen("where spicetify").read().rstrip("\n")
+        else:
+            self.path = os.popen("which spicetify").read().rstrip("\n")
+
         self.options_path = options_path or Path("~/.config/spicetify/options.txt").expanduser()
 
     @staticmethod
