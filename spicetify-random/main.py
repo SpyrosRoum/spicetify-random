@@ -153,8 +153,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--options",
         dest="options",
+        metavar="~/.config/spicetify/options.txt",
         type=file_path,
-        help="The path for the options file"
+        help="The path for the options file (Default: ~/.config/spicetify/options.txt)."
     )
     parser.add_argument(
         "--restart",
