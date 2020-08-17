@@ -17,6 +17,7 @@ theme_name color_scheme=scheme
 import os
 import sys
 import random
+import argparse
 import subprocess
 from pathlib import Path
 from typing import List, Optional
@@ -126,15 +127,28 @@ class Spicetify:
         for script in scripts:
             subprocess.Popen(script, stdout=subprocess.DEVNULL).wait()
 
-    def update(self):
-        """Apply and Update spicetify"""
-        # --no-restart is so spotify doesn't open when the script runs
-        subprocess.Popen([self.path, "apply", "--no-restart"], stdout=subprocess.DEVNULL).wait()
-        subprocess.Popen([self.path, "update"], stdout=subprocess.DEVNULL).wait()
+    def update(self, restart=False):
+        """Apply and Update spicetify
+            restart is if it should (re)start spotify or not
+        """
+        scripts = [
+            [self.path, "apply", "--no-restart" if not restart else " "],
+            [self.path, "update"]
+        ]
+        for script in scripts:
+            subprocess.Popen(script, stdout=subprocess.DEVNULL).wait()
 
 
 if __name__ == "__main__":
-    spice = Spicetify()
+    parser = argparse.ArgumentParser(description="Set a random spicetify theme from a given list.")
+    parser.add_argument(
+        "--restart",
+        dest="restart",
+        action='store_true',
+        help="If it should (re)start spotify after applying the new theme (Default: False)."
+    )
+
+    args = parser.parse_args()
     if spice.path is None:
         print("You need to install spicetify first.\n"
               "Please follow the instruction here: "
@@ -152,5 +166,7 @@ if __name__ == "__main__":
 
     spice.change_theme(old_theme, new_theme)
     print(f"New theme: {new_theme.name}")
-    spice.update()
-    print("You should restart spotify for the changes to take effect.")
+    spice.update(args.restart)
+
+    if not args.restart:
+        print("You should restart spotify for the changes to take effect.")
