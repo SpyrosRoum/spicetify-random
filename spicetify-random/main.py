@@ -139,8 +139,23 @@ class Spicetify:
             subprocess.Popen(script, stdout=subprocess.DEVNULL).wait()
 
 
+def file_path(path):
+    """To be used with the argument parser to make sure the path is valid"""
+    if os.path.isfile(path):
+        return Path(path)
+    else:
+        raise argparse.ArgumentTypeError(f"{path} is not a valid path")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Set a random spicetify theme from a given list.")
+
+    parser.add_argument(
+        "--options",
+        dest="options",
+        type=file_path,
+        help="The path for the options file"
+    )
     parser.add_argument(
         "--restart",
         dest="restart",
@@ -149,6 +164,8 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    spice = Spicetify(args.options)
     if spice.path is None:
         print("You need to install spicetify first.\n"
               "Please follow the instruction here: "
