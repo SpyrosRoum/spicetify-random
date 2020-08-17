@@ -132,7 +132,7 @@ if __name__ == "__main__":
         print("You need to install spicetify first.\n"
               "Please follow the instruction here: "
               "https://github.com/khanhas/spicetify-cli/wiki/Installation")
-        sys.exit()
+        sys.exit(1)
 
     old_theme = spice.get_old_theme()
     print(f"Old theme: {old_theme.name}")
