@@ -171,6 +171,10 @@ if __name__ == "__main__":
               "Please follow the instruction here: "
               "https://github.com/khanhas/spicetify-cli/wiki/Installation")
         sys.exit(1)
+    with open(spice.options_path, "r") as file:
+        if len(file.readlines()) <= 1:
+            print("You need more than one themes in the options file.")
+            sys.exit(1)
 
     old_theme = spice.get_old_theme()
     print(f"Old theme: {old_theme.name}")
